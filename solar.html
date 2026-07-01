@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Produk | Ortuseight Solar 2.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fcfcfc;
+            color: #1e293b;
+        }
+
+        /* === 1. NAVBAR HEADER GLOBAL (Sama dengan Beranda) === */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 20px;
+        }
+
+        .logo {
+            font-size: 19px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: #000000;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: #e60000;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            padding: 0;
+            margin: 0 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 13.5px;
+            font-weight: 600;
+            transition: color 0.15s ease;
+        }
+
+        .nav-links a:hover {
+            color: #0f172a;
+        }
+
+        .nav-right-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px 8px 34px;
+            font-size: 13px;
+            border-radius: 8px;
+            width: 180px;
+            outline: none;
+            color: #1e293b;
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            background-color: #ffffff;
+            border-color: #cbd5e1;
+            width: 220px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            pointer-events: none;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .action-btn {
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.15s ease, transform 0.15s ease;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            color: #e60000;
+            transform: translateY(-1px);
+        }
+
+        /* === 2. DROPDOWN SYSTEM === */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .arrow-down {
+            font-size: 10px;
+            color: #94a3b8;
+            transition: transform 0.2s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background-color: #ffffff;
+            min-width: 160px;
+            list-style: none;
+            padding: 6px 0;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #64748b;
+            text-align: left;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f8fafc;
+            color: #e60000;
+            padding-left: 18px;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown:hover .arrow-down {
+            transform: rotate(180deg);
+            color: #0f172a;
+        }
+
+        /* === 3. LAYOUT DETAIL PRODUK === */
+        .detail-container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        @media (min-width: 768px) {
+            .detail-container {
+                grid-template-columns: 1.2fr 1fr;
+            }
+        }
+
+        /* Galeri / Tampilan Kiri */
+        .detail-gallery {
+            background-color: #f8fafc;
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.02);
+        }
+
+        .detail-gallery img {
+            max-width: 90%;
+            height: auto;
+            object-fit: cover;
+            transform: rotate(-10deg);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .detail-gallery:hover img {
+            transform: rotate(-2deg) scale(1.04);
+        }
+
+        /* Sisi Rincian Kanan */
+        .detail-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-badge {
+            font-size: 12px;
+            font-weight: 800;
+            color: #e60000;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .product-title {
+            font-size: 30px;
+            font-weight: 850;
+            color: #0f172a;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 24px;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #f1f5f9;
+            margin-bottom: 20px;
+        }
+
+        .desc-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .product-desc {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Pemilihan Ukuran */
+        .size-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .size-btn {
+            background-color: #fff;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            width: 48px;
+            height: 48px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .size-btn:hover {
+            border-color: #0f172a;
+        }
+
+        .size-btn.active {
+            background-color: #0f172a;
+            color: #fff;
+            border-color: #0f172a;
+        }
+
+        /* === 4. STRUKTUR BUTTON LIST BARU === */
+        .product-actions-list {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .product-actions-list .action-item-buy {
+            flex: 1; /* Membuat item tombol beli selebar sisa kolom */
+        }
+
+        /* Tombol Keranjang Hitam-Putih */
+        .btn-cart-black {
+            background-color: #0f172a;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s, transform 0.1s;
+            text-decoration: none;
+        }
+
+        .btn-cart-black:hover {
+            background-color: #1e293b;
+        }
+
+        /* Tombol Beli Utama (Sama Seperti di Beranda) */
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            height: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .btn-buy:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+        }
+
+        .btn-buy:active, .btn-cart-black:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR HEADER -->
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">Local<span>Running</span></a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">All Shoes</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-trigger">Ortuseight <span class="arrow-down">▾</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="product-detail.html">Solar</a></li>
+                        <li><a href="#">Hypersonic</a></li>
+                        <li><a href="#">Hyperblast</a></li>
+                        <li><a href="#">Hyperfuse</a></li>
+                        <li><a href="#">Hyperglide</a></li>
+                        <li><a href="#">Hyperdrive</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-trigger">910 <span class="arrow-down">▾</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Haze Vision</a></li>
+                        <li><a href="#">Haze Aegis</a></li>
+                        <li><a href="#">Cloud Nimbus</a></li>
+                        <li><a href="#">Cloud Stratus</a></li>
+                        <li><a href="#">Yuza</a></li>
+                        <li><a href="#">Georun</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-trigger">Mills <span class="arrow-down">▾</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Enercharge</a></li>
+                        <li><a href="#">Fly Dynamic</a></li>
+                        <li><a href="#">Triton</a></li>
+                        <li><a href="#">Overdrive</a></li>
+                        <li><a href="#">Voltags</a></li>
+                        <li><a href="#">Zenos</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="nav-right-group">
+                <div class="search-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" placeholder="Cari sepatu lari...">
+                </div>
+                <div class="nav-actions">
+                    <a href="cart.html" class="action-btn" title="Keranjang Belanja">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                    </a>
+                    <a href="auth.html" class="action-btn" title="Akun Saya">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- AREA UTAMA DETAIL PRODUK -->
+    <main class="detail-container">
+        
+        <!-- Sisi Kiri: Foto Utama -->
+        <div class="detail-gallery">
+            <img src="https://ortuseightdev.id:8030/assets/dist/productimg/11040209_SOLAR_2_0_-_ORTUSArtboard_1.jpg" alt="Ortuseight Solar 2.0" onerror="this.src='https://placehold.co/500x400?text=Solar+2.0'">
+        </div>
+
+        <!-- Sisi Kanan: Informasi Lengkap -->
+        <div class="detail-info">
+            <span class="brand-badge">Ortuseight Running</span>
+            <h1 class="product-title">Ortuseight Solar 2.0 Carbon</h1>
+            <div class="product-price">Rp 2,580,000</div>
+            
+            <div class="divider"></div>
+            
+            <div class="desc-title">Deskripsi Produk</div>
+            <p class="product-desc">
+                Ortuseight Solar 2.0 didesain khusus bagi para pelari elite untuk memecahkan catatan waktu terbaik. Dibekali teknologi pelat karbon ringan terintegrasi yang dipadukan dengan busa midsole tebal yang empuk dan membal, sepatu ini memberikan tolakan energi maksimal di setiap transisi langkah lari marathon Anda.
+            </p>
+
+            <div class="divider"></div>
+
+            <!-- Pilih Ukuran -->
+            <div class="desc-title" style="margin-bottom: 12px;">Pilih Ukuran (EU)</div>
+            <div class="size-grid">
+                <button class="size-btn">40</button>
+                <button class="size-btn">41</button>
+                <button class="size-btn active">42</button>
+                <button class="size-btn">43</button>
+                <button class="size-btn">44</button>
+            </div>
+
+            <!-- STRUKTUR DAFTAR <li> DENGAN TAG <a> UNTUK AKSI HLMN LAIN -->
+            <ul class="product-actions-list">
+                
+                <!-- Item 1: Masuk ke halaman cart.html -->
+                <li class="action-item-cart">
+                    <a href="cart.html" class="btn-cart-black" title="Tambah ke Keranjang">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                    </a>
+                </li>
+
+                <!-- Item 2: Masuk ke halaman address-list.html -->
+                <li class="action-item-buy">
+                    <a href="address-list.html" class="btn-buy">
+                        Beli
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- Script Sederhana Klik Ukuran -->
+    <script>
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        sizeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                sizeBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

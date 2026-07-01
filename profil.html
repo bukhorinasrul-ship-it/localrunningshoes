@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Akun | Local Running Shoes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="text-xl font-black uppercase tracking-tight text-black">
+                Local<span class="text-red-600">Running</span>
+            </a>
+            <nav class="flex space-x-8">
+                <a href="index.html" class="text-sm font-semibold text-gray-600 hover:text-red-600 uppercase">Beranda</a>
+                <a href="#" class="text-sm font-semibold text-red-600 uppercase border-b-2 border-red-600 pb-1">Akun Saya</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm h-fit">
+                <div class="flex flex-col items-center text-center pb-6 border-b border-gray-100">
+                    <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600 border-2 border-red-500 mb-4">
+                        NB
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800">Nasrul Buchori</h3>
+                    <p class="text-sm text-gray-500">nasrul.buchori@example.com</p>
+                </div>
+                
+                <ul class="mt-6 space-y-2 text-sm font-medium">
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 bg-red-50 text-red-600 p-3 rounded-lg transition">
+                            <span>👤</span>
+                            <span>Detail Profil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="order-history.html" class="flex items-center space-x-3 text-gray-600 hover:bg-gray-50 p-3 rounded-lg transition">
+                            <span>📦</span>
+                            <span>Riwayat Pesanan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="address-list.html" class="flex items-center space-x-3 text-gray-600 hover:bg-gray-50 p-3 rounded-lg transition">
+                            <span>📍</span>
+                            <span>Daftar Alamat</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 text-red-600 hover:bg-red-50 p-3 rounded-lg transition mt-4 border-t border-gray-100 pt-4">
+                            <span>🚪</span>
+                            <span>Keluar Akun</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="md:col-span-3 bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
+                <div class="border-b border-gray-200 pb-4 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Informasi Profil</h2>
+                    <p class="text-sm text-gray-500">Kelola informasi profil akun Anda di sini.</p>
+                </div>
+
+                <form action="#" method="POST" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wide text-gray-700 mb-2">Nama Lengkap</label>
+                            <input type="text" value="Nasrul Buchori" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="Masukkan nama lengkap">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wide text-gray-700 mb-2">Username</label>
+                            <input type="text" value="nasrul_b" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="Masukkan username">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wide text-gray-700 mb-2">Alamat Email</label>
+                            <input type="email" value="nasrul.buchori@example.com" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-gray-50 text-gray-500 cursor-not-allowed" disabled>
+                            <p class="text-xs text-gray-400 mt-1">Email tidak dapat diubah.</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wide text-gray-700 mb-2">Nomor Telepon / WhatsApp</label>
+                            <input type="tel" value="081234567890" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="Contoh: 081234567890">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wide text-gray-700 mb-2">Ukuran Jersey Pilihan</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                <option value="S" selected>S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-4 border-t border-gray-100 space-x-3">
+                        <button type="button" class="px-5 py-2.5 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-5 py-2.5 rounded-lg bg-red-600 text-white text-sm font-bold uppercase tracking-wider hover:bg-red-700 transition shadow-sm">
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="bg-black text-gray-400 py-6 mt-20 text-center text-xs border-t border-gray-800">
+        <p>&copy; 2026 Local Running Shoes Store. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Running Shoes | Running Shoes & Gear Specialists</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fcfcfc;
+            color: #1c1c1c;
+            position: relative;
+        }
+
+        /* Announcement Bar */
+        .announcement-bar {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Navbar */
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 16px 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #e60000;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #e60000;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-icons button, .nav-icons a {
+            background: none;
+            border: none;
+            color: #222;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .nav-icons button:hover, .nav-icons a:hover {
+            color: #e60000;
+            transform: scale(1.05);
+        }
+
+        /* === BAR PENCARIAN MENGAMBANG & SOFT (FLOATING OVERLAY) === */
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.85); /* Latar belakang blur putih transparan halus */
+            backdrop-filter: blur(8px); /* Efek kaca buram (Glassmorphism) */
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 100px;
+        }
+
+        .search-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .search-container-floating {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 20px;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            /* Soft Layered Shadow (Efek bayangan halus berlapis) */
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.01),
+                0 10px 15px -3px rgba(0, 0, 0, 0.03),
+                0 20px 25px -5px rgba(0, 0, 0, 0.05),
+                0 40px 50px -12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-20px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .search-overlay.active .search-container-floating {
+            transform: translateY(0);
+        }
+
+        .search-header-floating {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .search-header-floating h3 {
+            font-size: 14px;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-close-search {
+            background: #f5f5f5;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .btn-close-search:hover {
+            background: #eee;
+            color: #000;
+        }
+
+        .search-input-group-floating {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input-group-floating input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #1e293b;
+            outline: none;
+            transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-input-group-floating input:focus {
+            border-color: #cbd5e1;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .search-icon-inside {
+            position: absolute;
+            left: 18px;
+            font-size: 18px;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .search-status-floating {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+
+        /* Menu Dropdown Profil Akun (Soft Shadow) */
+        .profile-dropdown {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,0.03);
+            border-radius: 12px;
+            width: 280px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            display: none;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .profile-dropdown.active {
+            display: block;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 10px;
+        }
+
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+            background-color: #e60000;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .profile-info h5 {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .profile-info p {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .profile-menu {
+            list-style: none;
+        }
+
+        .profile-menu li a {
+            display: block;
+            padding: 8px 10px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .profile-menu li a:hover {
+            background-color: #f8fafc;
+            color: #e60000;
+        }
+
+        .profile-menu .logout-item a {
+            color: #e60000;
+            border-top: 1px solid #f1f5f9;
+            margin-top: 5px;
+            padding-top: 12px;
+        }
+
+        /* Layout Konten Utama */
+        .container {
+            max-width: 1300px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .catalog-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .catalog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .catalog-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .sort-select {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            background-color: #fff;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #334155;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Product Grid & Cards (Soft Design) */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 16px;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card.hidden {
+            display: none !important;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+        }
+
+        .badge-new {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background-color: #e60000;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            z-index: 10;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-brand {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 16px;
+            line-height: 1.4;
+            text-decoration: none;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 40px;
+        }
+
+        .product-name:hover {
+            color: #e60000;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            gap: 10px;
+            padding-top: 12px;
+            border-top: 1px dashed #f1f5f9;
+        }
+
+        .product-price {
+            font-size: 15px;
+            font-weight: 750;
+            color: #0f172a;
+        }
+
+        .btn-buy {
+            background-color: #e60000;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+        }
+
+        .btn-buy:hover {
+            background-color: #b30000;
+        }
+
+        /* Pesan Kosong / Not Found Box */
+        .no-results-msg {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            font-size: 15px;
+            color: #64748b;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #000;
+            color: #fff;
+            padding: 60px 20px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .footer-col ul li a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #fff;
+        }
+
+        .about-text-box {
+            background-color: #111;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 13px; 
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        .footer-bottom {
+            max-width: 1300px;
+            margin: 30px auto 0;
+            font-size: 12px;
+            color: #555;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+        /* Layout Dasar Menu */
+.nav-links {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: #0f172a;
+}
+
+/* === LOGIKA DROPDOWN UNTUK SEMUA MEREK === */
+.dropdown {
+    position: relative; /* Patokan posisi menu melayang */
+}
+
+.dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.arrow-down {
+    font-size: 10px;
+    color: #94a3b8;
+    transition: transform 0.2s ease;
+}
+
+/* Menu Melayang Bersama (Hidden Default) */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 170px;
+    list-style: none;
+    padding: 8px 0;
+    margin-top: 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 
+                0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    
+    /* Efek Animasi Fade-In & Slide-Up */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100;
+}
+
+/* Baris Menu Dalam Dropdown */
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #64748b;
+    transition: all 0.15s ease;
+}
+
+/* Efek Hover Pilihan Sepatu */
+.dropdown-menu li a:hover {
+    background-color: #f8fafc;
+    color: #e60000; /* Efek merah brand global saat disorot */
+    padding-left: 20px; /* Efek bergeser soft ke kanan */
+}
+
+/* AKSI SAAT MOUSE MENEMPEL (HOVER) */
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Panah Berputar 180 Derajat */
+.dropdown:hover .arrow-down {
+    transform: rotate(180deg);
+    color: #0f172a;
+}
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        GRATIS ONGKIR SE-INDONESIA* &amp; EXTRA BONUS DI SETIAP PEMBELIAN!
+    </div>
+
+    <header>
+        <div class="navbar">
+            <a href="#" class="logo">Local<span>Running</span></a>
+            
+           <ul class="nav-links">
+    <ul class="nav-links">
+    
+    <li>
+        <a href="index.html">All Shoes</a>
+    </li>
+    <li class="dropdown">
+        <a href="index.html" class="dropdown-trigger">Ortuseight <span class="arrow-down">▾</span></a>
+        <ul class="dropdown-menu">
+            <li><a href="solar.html">Solar</a></li>
+            <li><a href="#">Hypersonic</a></li>
+            <li><a href="#">Hyperblast</a></li>
+            <li><a href="#">Hyperfuse</a></li>
+            <li><a href="#">Hyperglide</a></li>
+            <li><a href="#">Hyperdrive</a></li>
+        </ul>
+    </li>
+
+    <li class="dropdown">
+        <a href="#" class="dropdown-trigger">910 <span class="arrow-down">▾</span></a>
+        <ul class="dropdown-menu">
+            <li><a href="#">HAZE MIRAEIGE</a></li>
+            <li><a href="#">FUUTO HERITAGE SAIL</a></li>
+            <li><a href="#">HIROSHI 2.0 11TH ANNIVERSARY</a></li>
+            <li><a href="#">HAZE TEMPO 2.0 SE JOGMAR</a></li>
+            <li><a href="#">HAZE STRIKE PRO</a></li>
+            <li><a href="#">GEIST EKIDEN HYPERPULSE</a></li>
+        </ul>
+    </li>
+
+    <li class="dropdown">
+        <a href="#" class="dropdown-trigger">Mills <span class="arrow-down">▾</span></a>
+        <ul class="dropdown-menu">
+            <li><a href="#">Enercharge</a></li>
+            <li><a href="#">HYPERCHARHGE</a></li>
+            <li><a href="#">ENERPRO</a></li>
+            <li><a href="#">DYNAPLATE</a></li>
+            <li><a href="#">ENERSTRIKE</a></li>
+            <li><a href="#">ENERMAX</a></li>
+        </ul>
+    </li>
+
+</ul>
+
+            <div class="nav-icons">
+                <button id="search-toggle-btn" title="Cari">&#128269;</button>
+                <button id="profile-toggle-btn" title="Akun">&#128100;</button>
+                <a href="#" id="cart-btn" title="Keranjang">&#128092; <span id="cart-count">(0)</span></a>
+            </div>
+        </div>
+
+        <!-- Dropdown Menu Profil Akun -->
+        <div class="profile-dropdown" id="profileMenu">
+            <div class="profile-header">
+                <div class="profile-avatar">NB</div>
+                <div class="profile-info">
+                    <h5>Nasrul Buchori</h5>
+                    <p>nasrul@example.com</p>
+                </div>
+            </div>
+            <ul class="profile-menu">
+                <li><a href="profil.html">👤 Detail Profil</a></li>
+                <li><a href="keranjang.html">📦 Riwayat Pesanan</a></li>
+                <li><a href="address-list.html">📍 Daftar Alamat</a></li>
+                <li class="logout-item"><a href="#">🚪 Keluar Akun</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- === INTERFAIS OVERLAY PENCARIAN MENGAMBANG === -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container-floating">
+            <div class="search-header-floating">
+                <h3>Pencarian Produk</h3>
+                <button class="btn-close-search" id="search-close-btn" title="Tutup Pencarian">&times;</button>
+            </div>
+            <div class="search-input-group-floating">
+                <span class="search-icon-inside">&#128269;</span>
+                <input type="text" id="live-search-input" placeholder="Cari brand atau seri sepatu lari...">
+            </div>
+            <div class="search-status-floating" id="search-status-text">Menampilkan semua produk</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <main class="catalog-container">
+            <div class="catalog-header">
+                <h2>Men's &amp; Women's Running Shoes</h2>
+                <select class="sort-select">
+                    <option>Produk Terbaru</option>
+                    <option>Harga: Rendah ke Tinggi</option>
+                    <option>Harga: Tinggi ke Rendah</option>
+                    <option>Populer</option>
+                </select>
+            </div>
+
+            <!-- Box Pesan jika produk tidak ada -->
+            <div class="no-results-msg" id="noResultsBox">😮 Produk yang Anda cari tidak ditemukan.</div>
+
+            <div class="product-grid" id="mainProductGrid">
+                
+                <!-- Produk 1 -->
+                <div class="product-card" data-search-name="ortuseight solar 2.0" data-search-brand="ortuseight">
+                    <span class="badge-new">New</span>
+                    <div class="product-image">
+                        <img src="https://ortuseightdev.id:8030/assets/dist/productimg/11040209_SOLAR_2_0_-_ORTUSArtboard_1.jpg" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Solar+2.0'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Ortuseight</div>
+                        <a href="solar.html" class="product-name">Ortuseight solar 2.0</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 2,580,000</div>
+                        <button  class="btn-buy">Beli</button>
+                    </div>
+                </div>
+
+                <!-- Produk 2 -->
+                <div class="product-card" data-search-name="ortuseight hyperblast 3.0 sage teal original" data-search-brand="ortuseight">
+                    <span class="badge-new">New</span>
+                    <div class="product-image">
+                        <img src="https://ortuseightdev.id:8030/assets/dist/productimg/11040202_HYBPERBLAST_3_0_Artboard_14.jpg" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Hyperblast+3.0'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Ortuseight</div>
+                        <a href="#" class="product-name">Ortuseight Hyperblast 3.0 Sage Teal Original</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 744,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+
+                <!-- Produk 3 -->
+                <div class="product-card" data-search-name="mills sepatu lari enercharge m2 flash yellow 9106603" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/mills-sepatu-lari-running-shoes-enercharge-m2-flashyellowblack-9106603-9106603_-_flash_yellow___black.png?v=1780543216&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Mills+Enercharge+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS SEPATU LARI ENERCHARGE M2 FLASH YELLOW 9106603</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 1,799,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+
+                <!-- Produk 4 -->
+                <div class="product-card" data-search-name="910 nineten haze vision stealth black" data-search-brand="910 nineten">
+                    <div class="product-image">
+                        <img src="https://910.id/cdn/shop/files/1_e1242f31-9ca3-4d26-aff7-7d3b4d35e9f4.png?v=1778819369&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Haze+Vision'">
+                    </div>
+                    <div>
+                        <div class="product-brand">910 Nineten</div>
+                        <a href="#" class="product-name">910 Nineten Haze Vision Stealth Black</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 529,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+
+                <!-- Produk 5 -->
+                <div class="product-card" data-search-name="haze tempo 2.0 se jkt putih/biru/merah" data-search-brand="910 nineten">
+                    <div class="product-image">
+                        <img src="https://910.id/cdn/shop/files/HAZETEMPO1.0SEJKT_1.jpg?v=1781840116&width=720" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Haze+Tempo+2.0'">
+                    </div>
+                    <div>
+                        <div class="product-brand">910 nineten</div>
+                        <a href="#" class="product-name">HAZE TEMPO 2.0 SE JKT PUTIH/BIRU/MERAH</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 899,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+
+                <!-- Produk 6 -->
+                <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+                 <div class="product-card" data-search-name="mills dynaplate rush m2 java cyan white" data-search-brand="mills">
+                    <div class="product-image">
+                        <img src="https://mills.co.id/cdn/shop/files/javacyan_white_freshorange_-_9104903_1.png?v=1779263353&width=533" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Dynaplate+Rush+M2'">
+                    </div>
+                    <div>
+                        <div class="product-brand">Mills</div>
+                        <a href="#" class="product-name">MILLS DYNAPLATE RUSH M2 JAVA CYAN WHITE</a>
+                    </div>
+                    <div class="product-actions">
+                        <div class="product-price">Rp 649,000</div>
+                        <button class="btn-buy">Beli</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Local Running Shoes</h4>
+                <div class="about-text-box">
+                    Spesialis penyedia sepatu lari lokal kualitas terbaik di Indonesia. Menghadirkan performa maksimal untuk setiap langkah lari Anda.
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Layanan Pelayanan</h4>
+                <ul>
+                    <li><a href="#">Cara Pemesanan</a></li>
+                    <li><a href="#">Konfirmasi Pembayaran</a></li>
+                    <li><a href="#">Lacak Pengiriman</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Tentang Kami</h4>
+                <ul>
+                    <li><a href="#">Hubungi Kami</a></li>
+                    <li><a href="#">Lokasi Store</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Local Running Shoes Store. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logika Gabungan -->
+    <script>
+        // --- 1. LOGIKA INTERAKSI FLOATING SEARCH OVERLAY ---
+        const searchToggleBtn = document.getElementById('search-toggle-btn');
+        const searchCloseBtn = document.getElementById('search-close-btn');
+        const searchOverlay = document.getElementById('searchOverlay');
+        const liveSearchInput = document.getElementById('live-search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const noResultsBox = document.getElementById('noResultsBox');
+        const searchStatusText = document.getElementById('search-status-text');
+
+        // Membuka overlay pencarian
+        searchToggleBtn.addEventListener('click', () => {
+            searchOverlay.classList.add('active');
+            setTimeout(() => {
+                liveSearchInput.focus(); // Auto-focus input setelah overlay terbuka
+            }, 100);
+        });
+
+        // Menutup overlay pencarian dengan tombol "X"
+        searchCloseBtn.addEventListener('click', () => {
+            searchOverlay.classList.remove('active');
+        });
+
+        // Menutup overlay pencarian saat pengguna mengklik latar belakang kosong di luar kotak putih
+        searchOverlay.addEventListener('click', (e) => {
+            if (e.target === searchOverlay) {
+                searchOverlay.classList.remove('active');
+            }
+        });
+
+        // Menyaring produk langsung di katalog saat mengetik di dalam overlay mengambang
+        liveSearchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            let matchCount = 0;
+
+            productCards.forEach(card => {
+                const name = card.getAttribute('data-search-name');
+                const brand = card.getAttribute('data-search-brand');
+
+                if (name.includes(query) || brand.includes(query)) {
+                    card.classList.remove('hidden');
+                    matchCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Tampilkan atau sembunyikan box peringatan jika tidak ditemukan
+            if (matchCount === 0) {
+                noResultsBox.style.display = 'block';
+            } else {
+                noResultsBox.style.display = 'none';
+            }
+
+            // Memperbarui informasi status di bawah input
+            if (query === '') {
+                searchStatusText.textContent = 'Menampilkan semua produk';
+            } else {
+                searchStatusText.textContent = `Menemukan ${matchCount} produk cocok untuk "${this.value}"`;
+            }
+        });
+
+
+        // --- 2. LOGIKA DROPDOWN PROFIL ---
+        const profileToggleBtn = document.getElementById('profile-toggle-btn');
+        const profileMenu = document.getElementById('profileMenu');
+
+        profileToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!profileMenu.contains(e.target) && e.target !== profileToggleBtn) {
+                profileMenu.classList.remove('active');
+            }
+        });
+
+
+        // --- 3. LOGIKA REDIREKSI TOMBOL BELI ---
+        document.querySelectorAll('.btn-buy').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const productCard = button.closest('.product-card');
+                const name = productCard.querySelector('.product-name').textContent.trim();
+                const brand = productCard.querySelector('.product-brand').textContent.trim();
+                const price = productCard.querySelector('.product-price').textContent.trim();
+
+                window.location.href = `order.html?name=${encodeURIComponent(name)}&brand=${encodeURIComponent(brand)}&price=${encodeURIComponent(price)}`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang Belanja | Local Running Shoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fcfcfc;
+            color: #1e293b;
+        }
+
+        /* Navbar Sticky */
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #e60000;
+        }
+
+        .btn-back-home {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .btn-back-home:hover {
+            color: #e60000;
+        }
+
+        /* Tata Letak Utama (Grid Dua Kolom) */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 24px;
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .cart-layout {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        /* Bagian Kiri: Daftar Produk di Keranjang */
+        .cart-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .cart-item {
+            background-color: #fff;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 10px 15px -3px rgba(0, 0, 0, 0.02);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .product-img-box {
+            width: 90px;
+            height: 90px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .product-img-box img {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .product-variant {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .product-price {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        /* Kontrol Jumlah Barang */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            width: fit-content;
+            background-color: #fff;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+            cursor: pointer;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.1s;
+        }
+
+        .qty-btn:hover {
+            background-color: #f8fafc;
+        }
+
+        .qty-input {
+            width: 36px;
+            text-align: center;
+            border: none;
+            font-size: 13px;
+            font-weight: 700;
+            color: #1e293b;
+            outline: none;
+            -moz-appearance: textfield;
+        }
+
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Tombol Hapus Produk */
+        .btn-remove-item {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 8px;
+            transition: color 0.2s;
+        }
+
+        .btn-remove-item:hover {
+            color: #ef4444;
+        }
+
+        /* Bagian Kanan: Ringkasan Belanja */
+        .cart-summary {
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 20px 25px -5px rgba(0, 0, 0, 0.04);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .summary-row.total {
+            border-top: 1px dashed #e2e8f0;
+            padding-top: 16px;
+            margin-top: 16px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            background-color: #0f172a;
+            color: #fff;
+            border: none;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-checkout:hover {
+            background-color: #27272a;
+        }
+
+        /* Keadaan Jika Keranjang Kosong */
+        .empty-cart-box {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            color: #64748b;
+        }
+
+        .empty-cart-box span {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .btn-continue-shopping {
+            display: inline-block;
+            margin-top: 16px;
+            background-color: #e60000;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">Local<span>Running</span></a>
+            <a href="index.html" class="btn-back-home">&larr; Lanjut Belanja</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">Keranjang Belanja</h1>
+
+        <div class="empty-cart-box" id="emptyCart">
+            <span>🛒</span>
+            <p>Keranjang belanja Anda masih kosong.</p>
+            <a href="index.html" class="btn-continue-shopping">Cari Sepatu Lari</a>
+        </div>
+
+        <div class="cart-layout" id="cartLayout">
+            <div class="cart-items-list">
+
+                <div class="cart-item" data-price="2580000">
+                    <div class="product-img-box">
+                        <img src="https://ortuseightdev.id:8030/assets/dist/productimg/11040209_SOLAR_2_0_-_ORTUSArtboard_1.jpg" alt="Solar 2.0" onerror="this.src='https://placehold.co/100'">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-name">Ortuseight Solar 2.0</h3>
+                        <p class="product-variant">Ukuran: 42</p>
+                        <span class="product-price">Rp 2,580,000</span>
+                    </div>
+                    <div class="quantity-control">
+                        <button class="qty-btn minus-btn">&minus;</button>
+                        <input type="number" class="qty-input" value="1" min="1">
+                        <button class="qty-btn plus-btn">&plus;</button>
+                    </div>
+                    <button class="btn-remove-item" title="Hapus produk">&times;</button>
+                </div>
+
+                <div class="cart-item" data-price="529000">
+                    <div class="product-img-box">
+                        <img src="https://910.

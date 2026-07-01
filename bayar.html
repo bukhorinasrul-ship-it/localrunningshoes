@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selesaikan Pembayaran | Local Running Shoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #1c1c1c;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #e60000;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            margin-bottom: 20px;
+        }
+
+        /* Countdown Timer Styling */
+        .timer-box {
+            background-color: #fff5f5;
+            border: 1px dashed #e60000;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+
+        .timer-title {
+            font-size: 13px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .countdown {
+            font-size: 24px;
+            font-weight: 800;
+            color: #e60000;
+        }
+
+        /* Total Bayar */
+        .total-container {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .total-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .total-amount {
+            font-size: 28px;
+            font-weight: 800;
+            color: #000;
+            margin-top: 5px;
+        }
+
+        /* Detail Instruksi */
+        .payment-method-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .va-number-box {
+            background-color: #f1f3f5;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #000;
+            border: 1px solid #e2e8f0;
+        }
+
+        .qris-image {
+            max-width: 200px;
+            margin: 15px auto;
+            display: block;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .instructions {
+            text-align: left;
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #444;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        /* Status & Buttons */
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background-color: #ffeaa7;
+            color: #d63031;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 20px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s;
+            margin-top: 25px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-confirm:hover {
+            background-color: #222;
+        }
+
+        .btn-cancel {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #e60000;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .btn-cancel:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">Local<span>Running</span></a>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="status-badge" id="payment-status">Menunggu Pembayaran</div>
+            
+            <!-- Batas Waktu Bayar -->
+            <div class="timer-box" id="timer-container">
+                <div class="timer-title" id="timer-label">Batas Waktu Pembayaran</div>
+                <div class="countdown" id="countdown-time">23:59:59</div>
+            </div>
+
+            <!-- Ringkasan Harga -->
+            <div class="total-container">
+                <div class="total-label">Total yang Harus Dibayar</div>
+                <div class="total-amount" id="pay-total">Rp 0</div>
+                <div style="font-size: 12px; color: #888; margin-top: 5px;" id="order-item-name">Produk: Sepatu Lari</div>
+            </div>
+
+            <!-- Konten Instruksi Dinamis Berdasarkan Metode Pembayaran -->
+            <div id="payment-instruction-content">
+                <!-- Konten akan diisi otomatis via JavaScript -->
+            </div>
+
+            <!-- Tombol Konfirmasi Selesai -->
+            <button class="btn-confirm" id="btn-done">Saya Sudah Bayar</button>
+            <a href="index.html" class="btn-cancel">Batalkan Pesanan</a>
+        </div>
+    </div>
+
+    <script>
+        // 1. Tangkap parameter dari URL halaman sebelumnya (order.html)
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name') || "Sepatu Lari Premium";
+        const price = urlParams.get('price') || "Rp 0";
+        const method = urlParams.get('method') || "Transfer Bank (VA)";
+
+        // Set teks data dasar ke UI
+        document.getElementById('pay-total').textContent = price;
+        document.getElementById('order-item-name').textContent = `Produk: ${name}`;
+
+        // 2. Logika Menampilkan Instruksi Pembayaran Sesuai Pilihan Metode
+        const instructionContainer = document.getElementById('payment-instruction-content');
+        let minutesLimit = 1440; // Default 24 jam (dalam menit) untuk VA
+
+        if (method.includes("VA")) {
+            // Metode Virtual Account
+            instructionContainer.innerHTML = `
+                <div class="payment-method-title">Virtual Account Bank Mandiri / BCA</div>
+                <div class="va-number-box">8830 8123 4567 8901</div>
+                <p style="font-size: 13px; color: #666;">Nomor akun ini otomatis dibuat khusus untuk pesanan Anda.</p>
+                
+                <div class="instructions">
+                    <strong>Cara Pembayaran via Mobile Banking / ATM:</strong>
+                    <ol>
+                        <li>Buka aplikasi Mobile Banking Anda atau pergi ke ATM terdekat.</li>
+                        <li>Pilih menu <strong>Transfer</strong> &gt; pilih <strong>Virtual Account</strong>.</li>
+                        <li>Masukkan nomor VA di atas: <strong>8830812345678901</strong>.</li>
+                        <li>Pastikan jumlah tagihan sesuai dan nama penerima adalah <strong>Local Running Store</strong>.</li>
+                        <li>Masukkan PIN Anda lalu simpan bukti transaksi.</li>
+                    </ol>
+                </div>
+            `;
+        } else if (method.includes("QRIS")) {
+            // Metode QRIS E-Wallet
+            minutesLimit = 15; // Batas bayar QRIS umumnya hanya 15 menit
+            instructionContainer.innerHTML = `
+                <div class="payment-method-title">Scan Kode QRIS di Bawah Ini</div>
+                <img src="https://placehold.co/200x200?text=QRIS+CODE" alt="QRIS Code" class="qris-image">
+                <p style="font-size: 13px; color: #666;">Bisa di-scan menggunakan GoPay, OVO, Dana, LinkAja, atau m-Banking Anda.</p>
+                
+                <div class="instructions">
+                    <strong>Cara Pembayaran QRIS:</strong>
+                    <ol>
+                        <li>Simpan/screenshot kode QRIS di atas pada ponsel Anda.</li>
+                        <li>Buka aplikasi dompet digital pilihan Anda (Gopay/OVO/Dana/m-Banking).</li>
+                        <li>Pilih fitur <strong>Scan / Bayar / QR</strong>.</li>
+                        <li>Unggah foto QRIS dari galeri Anda atau scan langsung.</li>
+                        <li>Konfirmasi nominal total bayar lalu selesaikan pembayaran.</li>
+                    </ol>
+                </div>
+            `;
+        } else if (method.includes("COD")) {
+            // Metode COD (Bayar di Tempat)
+            minutesLimit = 0; // Tidak perlu countdown timer
+            document.getElementById('timer-container').style.display = 'none';
+            document.getElementById('payment-status').textContent = "Pesanan Dikonfirmasi";
+            document.getElementById('payment-status').style.backgroundColor = "#e6fcf5";
+            document.getElementById('payment-status').style.color = "#0ca678";
+            
+            instructionContainer.innerHTML = `
+                <div class="payment-method-title">Metode Pembayaran: Bayar di Tempat (COD)</div>
+                <p style="font-size: 15px; color: #333; margin-bottom: 15px; font-weight: 500;">Pesanan Anda sedang dipersiapkan untuk dikirim!</p>
+                
+                <div class="instructions">
+                    <strong>Pemberitahuan Penting COD:</strong>
+                    <ol>
+                        <li>Siapkan uang tunai pas sebesar <strong>${price}</strong> sebelum kurir datang.</li>
+                        <li>Kurir akan menghubungi nomor telepon Anda sewaktu paket akan diantarkan ke alamat.</li>
+                        <li>Pembayaran wajib diberikan langsung ke kurir saat paket Anda terima.</li>
+                        <li>Dilarang membuka segel/box paket sebelum melakukan pembayaran ke kurir.</li>
+                    </ol>
+                </div>
+            `;
+            document.getElementById('btn-done').textContent = "Kembali Ke Toko";
+        }
+
+        // 3. Logika Menghitung Batas Waktu Mundur (Countdown Timer)
+        if (minutesLimit > 0) {
+            let totalSeconds = minutesLimit * 60;
+            const timerDisplay = document.getElementById('countdown-time');
+
+            const interval = setInterval(() => {
+                let hours = Math.floor(totalSeconds / 3600);
+                let minutes = Math.floor((totalSeconds % 3600) / 60);
+                let seconds = totalSeconds % 60;
+
+                // Format digit agar selalu 2 angka (contoh: 09)
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                timerDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+
+                if (totalSeconds <= 0) {
+                    clearInterval(interval);
+                    timerDisplay.textContent = "WAKTU HABIS";
+                    document.getElementById('payment-status').textContent = "Transaksi Kedaluwarsa";
+                    document.getElementById('btn-done').disabled = true;
+                    document.getElementById('btn-done').style.backgroundColor = "#ccc";
+                    alert("Waktu pembayaran Anda telah habis. Silakan buat pesanan baru.");
+                }
+
+                totalSeconds--;
+            }, 1000);
+        }
+
+        // 4. Logika Tombol Selesai
+        document.getElementById('btn-done').addEventListener('click', function() {
+            if (method.includes("COD")) {
+                window.location.href = 'index.html';
+            } else {
+                alert("Terima kasih! Pembayaran Anda sedang sistem kami verifikasi secara otomatis. Kami akan segera mengirimkan nomor resi pengiriman ke WhatsApp Anda.");
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

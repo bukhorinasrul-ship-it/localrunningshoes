@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pesanan | Local Running Shoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fcfcfc;
+            color: #1e293b;
+        }
+
+        /* Navbar Sticky */
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 16px 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #e60000;
+        }
+
+        .btn-back-home {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .btn-back-home:hover {
+            color: #e60000;
+        }
+
+        /* Konten Utama */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        /* Navigasi Filter Status (Soft Tab) */
+        .status-filter-tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 20px;
+            color: #64748b;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        .tab-btn.active {
+            background-color: #0f172a;
+            color: #fff;
+            border-color: #0f172a;
+        }
+
+        /* List Kartu Pesanan */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Soft Shadow Card */
+        .order-card {
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 10px 15px -3px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .order-card.hidden {
+            display: none !important;
+        }
+
+        /* Header Kartu */
+        .order-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .order-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .order-id {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        /* Badges Status Soft */
+        .status-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .status-badge.diproses {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-badge.dikirim {
+            background-color: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .status-badge.selesai {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        /* Detail Produk Pesanan */
+        .order-card-body {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .product-img-placeholder {
+            width: 70px;
+            height: 70px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img-placeholder img {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .product-info-details {
+            flex: 1;
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .product-qty {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* Footer Kartu & Total Pembayaran */
+        .order-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .total-payment-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .total-payment-box span:first-child {
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .total-payment-box span:last-child {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .btn-action-detail {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action-detail:hover {
+            background-color: #0f172a;
+            color: #fff;
+            border-color: #0f172a;
+        }
+
+        /* State Jika Riwayat Kosong */
+        .empty-history-box {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            color: #64748b;
+        }
+
+        .empty-history-box span {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">Local<span>Running</span></a>
+            <a href="index.html" class="btn-back-home">&larr; Kembali ke Beranda</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">Riwayat Pesanan</h1>
+        <p class="page-subtitle">Pantau status pengiriman dan cek kembali daftar transaksi belanja Anda.</p>
+
+        <!-- Kategori Tabs Filter Status -->
+        <div class="status-filter-tabs">
+            <button class="tab-btn active" data-status="semua">Semua Pesanan</button>
+            <button class="tab-btn" data-status="diproses">Diproses</button>
+            <button class="tab-btn" data-status="dikirim">Dikirim</button>
+            <button class="tab-btn" data-status="selesai">Selesai</button>
+        </div>
+
+        <!-- Box Jika Tidak Ada Transaksi Sama Sekali -->
+        <div class="empty-history-box" id="emptyStateBox">
+            <span>📦</span>
+            <p>Tidak ada riwayat transaksi pada kategori ini.</p>
+        </div>
+
+        <!-- List Kontainer Utama Pesanan -->
+        <div class="order-list" id="orderListContainer">
+
+            <!-- Transaksi 1 (Status: Diproses) -->
+            <div class="order-card" data-order-status="diproses">
+                <div class="order-card-header">
+                    <div class="order-meta">
+                        <span class="order-id">ORD-20260624-01</span>
+                        <span>&bull;</span>
+                        <span>24 Juni 2026</span>
+                    </div>
+                    <span class="status-badge diproses">Diproses</span>
+                </div>
+                <div class="order-card-body">
+                    <div class="product-img-placeholder">
+                        <img src="https://ortuseightdev.id:8030/assets/dist/productimg/11040209_SOLAR_2_0_-_ORTUSArtboard_1.jpg" alt="Solar 2.0" onerror="this.src='https://placehold.co/100?text=Sepatu'">
+                    </div>
+                    <div class="product-info-details">
+                        <h3 class="product-title">Ortuseight Solar 2.0</h3>
+                        <p class="product-qty">Ukuran: 42 &bull; Jumlah: 1</p>
+                    </div>
+                </div>
+                <div class="order-card-footer">
+                    <div class="total-payment-box">
+                        <span>Total Belanja</span>
+                        <span>Rp 2,580,000</span>
+                    </div>
+                    <button class="btn-action-detail">Lihat Detail</button>
+                </div>
+            </div>
+
+            <!-- Transaksi 2 (Status: Dikirim) -->
+            <div class="order-card" data-order-status="dikirim">
+                <div class="order-card-header">
+                    <div class="order-meta">
+                        <span class="order-id">ORD-20260620-89</span>
+                        <span>&bull;</span>
+                        <span>20 Juni 2026</span>
+                    </div>
+                    <span class="status-badge dikirim">Dikirim (Resi: JNE123456)</span>
+                </div>
+                <div class="order-card-body">
+                    <div class="product-img-placeholder">
+                        <img src="https://910.id/cdn/shop/files/1_e1242f31-9ca3-4d26-aff7-7d3b4d35e9f4.png?v=1778819369&width=533" alt="Haze Vision" onerror="this.src='https://placehold.co/100?text=Sepatu'">
+                    </div>
+                    <div class="product-info-details">
+                        <h3 class="product-title">910 Nineten Haze Vision Stealth Black</h3>
+                        <p class="product-qty">Ukuran: 41 &bull; Jumlah: 1</p>
+                    </div>
+                </div>
+                <div class="order-card-footer">
+                    <div class="total-payment-box">
+                        <span>Total Belanja</span>
+                        <span>Rp 529,000</span>
+                    </div>
+                    <button class="btn-action-detail">Lacak Resi</button>
+                </div>
+            </div>
+
+            <!-- Transaksi 3 (Status: Selesai) -->
+            <div class="order-card" data-order-status="selesai">
+                <div class="order-card-header">
+                    <div class="order-meta">
+                        <span class="order-id">ORD-20260515-44</span>
+                        <span>&bull;</span>
+                        <span>15 Mei 2026</span>
+                    </div>
+                    <span class="status-badge selesai">Selesai</span>
+                </div>
+                <div class="order-card-body">
+                    <div class="product-img-placeholder">
+                        <img src="https://mills.co.id/cdn/shop/files/mills-sepatu-lari-running-shoes-enercharge-m2-flashyellowblack-9106603-9106603_-_flash_yellow___black.png?v=1780543216&width=533" alt="Enercharge" onerror="this.src='https://placehold.co/100?text=Sepatu'">
+                    </div>
+                    <div class="product-info-details">
+                        <h3 class="product-title">MILLS Sepatu Lari Enercharge M2 Flash Yellow</h3>
+                        <p class="product-qty">Ukuran: 43 &bull; Jumlah: 1</p>
+                    </div>
+                </div>
+                <div class="order-card-footer">
+                    <div class="total-payment-box">
+                        <span>Total Belanja</span>
+                        <span>Rp 1,799,000</span>
+                    </div>
+                    <button class="btn-action-detail">Beli Lagi</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Logika Filter Tab -->
+    <script>
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const orderCards = document.querySelectorAll('.order-card');
+        const emptyStateBox = document.getElementById('emptyStateBox');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // 1. Ubah kelas aktif pada tombol tab
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                // 2. Dapatkan kriteria filter dari atribut data-status
+                const targetStatus = this.getAttribute('data-status');
+                let countVisible = 0;
+
+                // 3. Saring kartu pesanan
+                orderCards.forEach(card => {
+                    const cardStatus = card.getAttribute('data-order-status');
+
+                    if (targetStatus === 'semua' || cardStatus === targetStatus) {
+                        card.classList.remove('hidden');
+                        countVisible++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // 4. Munculkan pesan kosong jika pencarian status nihil
+                if (countVisible === 0) {
+                    emptyStateBox.style.display = 'block';
+                } else {
+                    emptyStateBox.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
