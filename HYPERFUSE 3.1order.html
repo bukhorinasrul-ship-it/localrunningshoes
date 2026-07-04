@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran | Local Running Shoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fcfcfc;
+            color: #1e293b;
+        }
+
+        /* === NAVBAR HEADER GLOBAL === */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 20px;
+        }
+
+        .logo {
+            font-size: 19px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: #000000;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: #e60000;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin: 0 20px;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 13.5px;
+            font-weight: 600;
+        }
+
+        /* === LAYOUT UTAMA CHECKOUT === */
+        .checkout-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (min-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1.6fr 1fr;
+            }
+        }
+
+        .checkout-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Card Pembungkus Formulir & Info */
+        .checkout-card {
+            background-color: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02);
+            margin-bottom: 20px;
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f172a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Bagian Alamat */
+        .address-box {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            background-color: #f8fafc;
+            position: relative;
+        }
+
+        .address-name {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .address-details {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .btn-change-address {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #e60000;
+            text-decoration: none;
+        }
+
+        /* Detail Produk yang Dibeli */
+        .product-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .product-img-thumb {
+            width: 70px;
+            height: 70px;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #f1f5f9;
+            flex-shrink: 0;
+        }
+
+        .product-img-thumb img {
+            max-width: 85%;
+            height: auto;
+        }
+
+        .product-details h4 {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .product-details p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        /* === MENU PILIHAN UKURAN (BARU) === */
+        .size-selection-wrapper {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        .size-label-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .size-options label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 38px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        /* Sembunyikan radio button bawaan browser */
+        .size-options input[type="radio"] {
+            display: none;
+        }
+
+        /* Efek ketika ukuran dipilih */
+        .size-options input[type="radio"]:checked + label {
+            background-color: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
+        }
+
+        .size-options label:hover {
+            border-color: #0f172a;
+        }
+
+
+        /* Pilihan Metode Pembayaran */
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .payment-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .payment-label:hover {
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
+        }
+
+        .payment-radio {
+            accent-color: #0f172a;
+        }
+
+        .payment-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+        }
+
+        /* === RINGKASAN ORDER (SISI KANAN) === */
+        .summary-box {
+            background-color: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02);
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .summary-row.total {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        /* Struktur Link Aksi Tombol Konfirmasi Akhir */
+        .action-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn-order-confirm {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0f172a;
+            color: #ffffff;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            width: 100%;
+        }
+
+        .btn-order-confirm:hover {
+            background-color: #1e293b;
+        }
+
+        .btn-order-confirm:active {
+            transform: scale(0.97);
+        }
+
+        /* === TAMPILAN POPUP INSTREKSI BAYAR === */
+        .modal-payment {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .countdown-box {
+            background-color: #fff1f2;
+            color: #e11d48;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin: 15px 0;
+            font-size: 15px;
+        }
+        .bank-details {
+            background-color: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        .rekening-num {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: 1px;
+            margin: 5px 0;
+        }
+        .qris-img {
+            width: 200px;
+            height: 200px;
+            margin: 15px auto;
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+        }
+        .qris-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .btn-close-modal {
+            background-color: #e2e8f0;
+            color: #334155;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .btn-close-modal:hover {
+            background-color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">Local<span>Running</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Kembali ke Beranda</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="checkout-container">
+        
+        <div>
+            <h2 class="checkout-title">Konfirmasi Pembelian</h2>
+
+            <div class="checkout-card">
+                <div class="card-subtitle">
+                    📍 Alamat Pengiriman
+                </div>
+                <div class="address-box">
+                    <div class="address-name">Nasrul Buchori</div>
+                    <div class="address-details">
+                        (+62) 812-3456-7890<br>
+                        Jl. Raya Kampus Universitas Nurul Huda, Sukaraja<br>
+                        Ogan Komering Ulu Timur, Sumatera Selatan, 32383
+                    </div>
+                    <a href="address-list.html" class="btn-change-address">Pilih Alamat Lain &rarr;</a>
+                </div>
+            </div>
+
+            <div class="checkout-card">
+                <div class="card-subtitle">
+                    📦 Produk Yang Dibeli
+                </div>
+                <div class="product-item">
+                    <div class="product-img-thumb">
+                        <img src="/11040213_HYPERFUSE_3_1_-_MANTIS_GREEN_ROSEArtboard_1.jpg" alt="Solar 2.0">
+                    </div>
+                    <div class="product-details">
+                        <h4>>Ortuseight HYPERFUSE 3.1</h4>
+                        <p id="selectedSizeText">Ukuran terpilih: EU 42</p>
+                        <p>Kuantitas: 1</p>
+                        <p style="font-weight: 700; color: #0f172a; margin-top: 4px;">Rp 775,000</p>
+                    </div>
+                </div>
+
+                <div class="size-selection-wrapper">
+                    <div class="size-label-title">Pilih Ukuran Sepatu (EU)</div>
+                    <div class="size-options">
+                        <input type="radio" id="size39" name="shoe_size" value="39" onclick="updateSizeDOM('39')">
+                        <label for="size39">39</label>
+
+                        <input type="radio" id="size40" name="shoe_size" value="40" onclick="updateSizeDOM('40')">
+                        <label for="size40">40</label>
+
+                        <input type="radio" id="size41" name="shoe_size" value="41" onclick="updateSizeDOM('41')">
+                        <label for="size41">41</label>
+
+                        <input type="radio" id="size42" name="shoe_size" value="42" checked onclick="updateSizeDOM('42')">
+                        <label for="size42">42</label>
+
+                        <input type="radio" id="size43" name="shoe_size" value="43" onclick="updateSizeDOM('43')">
+                        <label for="size43">43</label>
+                        
+                        <input type="radio" id="size44" name="shoe_size" value="44" onclick="updateSizeDOM('44')">
+                        <label for="size44">44</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkout-card">
+                <div class="card-subtitle">
+                    💳 Metode Pembayaran
+                </div>
+                <div class="payment-options">
+                    <label class="payment-label">
+                        <div class="payment-info">
+                            <span>🏛️</span> Bank Transfer (Virtual Account)
+                        </div>
+                        <input type="radio" name="payment" value="bank" class="payment-radio" checked>
+                    </label>
+                    <label class="payment-label">
+                        <div class="payment-info">
+                            <span>📱</span> E-Wallet (Dana / GoPay / OVO)
+                        </div>
+                        <input type="radio" name="payment" value="ewallet" class="payment-radio">
+                    </label>
+                    <label class="payment-label">
+                        <div class="payment-info">
+                            <span>📸</span> QRIS (Otomatis & Realtime)
+                        </div>
+                        <input type="radio" name="payment" value="qris" class="payment-radio">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <h3 class="card-subtitle" style="margin-bottom: 20px;">Ringkasan Belanja</h3>
+            
+            <div class="summary-row">
+                <span>Total Harga (1 Produk)</span>
+                <span>Rp 775,000</span>
+            </div>
+            <div class="summary-row">
+                <span>Biaya Pengiriman</span>
+                <span>Rp 0 (Gratis Ongkir)</span>
+            </div>
+            <div class="summary-row">
+                <span>Biaya Layanan</span>
+                <span>Rp 1,000</span>
+            </div>
+            
+            <div class="summary-row total">
+                <span>Total Pembayaran</span>
+                <span>Rp 776,000</span>
+            </div>
+
+            <ul class="action-list">
+                <li>
+                    <button type="button" onclick="prosesPembayaran()" class="btn-order-confirm">
+                        Selesaikan Pembayaran
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+    </main>
+
+    <div id="paymentModal" class="modal-payment">
+        <div class="modal-content" id="modalContentBody">
+            <h3 id="modalTitle" style="font-size: 18px; margin-bottom: 5px;">Selesaikan Pembayaran</h3>
+            <p style="font-size: 13px; color: #64748b;">Total Tagihan: <strong style="color:#0f172a; font-size: 15px;">Rp 660,000</strong></p>
+            
+            <div class="countdown-box">
+                Batas Waktu Bayar: <span id="countdown">23:59:59</span>
+            </div>
+
+            <div id="bankContent" class="bank-details" style="display: none;">
+                <p style="font-size: 13px; color:#64748b;">Bank Mandiri Virtual Account</p>
+                <div class="rekening-num">8961 0812 3456 7890</div>
+                <p style="font-size: 12px; color: #94a3b8;">Nama VA: LOCAL RUNNING SHOES</p>
+            </div>
+
+            <div id="qrisContent" style="display: none;">
+                <div class="qris-img">
+                    <img src="/qr.jpeg" alt="QRIS Code">
+                </div>
+                <p style="font-size: 12px; color:#64748b; margin-bottom: 10px;">Silahkan scan QRIS di atas menggunakan aplikasi m-banking atau e-wallet kamu.</p>
+            </div>
+
+            <div id="ewalletContent" class="bank-details" style="display: none;">
+                <p style="font-size: 13px; color:#64748b;">Nomor E-Wallet (DANA/GOPAY/OVO)</p>
+                <div class="rekening-num">0812-3456-7890</div>
+                <p style="font-size: 12px; color: #94a3b8;">Pastikan saldo mencukupi, instruksi dikirim ke aplikasi.</p>
+            </div>
+
+            <button class="btn-close-modal" onclick="cekStatusPembayaran()">Selesai</button>
+        </div>
+    </div>
+
+    <script>
+        let intervalTimer;
+        const HTMLAsliModal = document.getElementById('modalContentBody').innerHTML;
+
+        // Fungsi baru untuk memperbarui teks deskripsi ukuran saat tombol diklik
+        function updateSizeDOM(size) {
+            document.getElementById('selectedSizeText').innerText = "Ukuran terpilih: EU " + size;
+        }
+
+        function prosesPembayaran() {
+            document.getElementById('modalContentBody').innerHTML = HTMLAsliModal;
+
+            const metodeTerpilih = document.querySelector('input[name="payment"]:checked').value;
+            
+            document.getElementById('bankContent').style.style = 'none';
+            document.getElementById('qrisContent').style.display = 'none';
+            document.getElementById('ewalletContent').style.display = 'none';
+
+            if (metodeTerpilih === 'bank') {
+                document.getElementById('modalTitle').innerText = "Transfer Bank Virtual Account";
+                document.getElementById('bankContent').style.display = 'block';
+                mulaiCountdown(24 * 60 * 60);
+            } else if (metodeTerpilih === 'qris') {
+                document.getElementById('modalTitle').innerText = "Pembayaran via QRIS";
+                document.getElementById('qrisContent').style.display = 'block';
+                mulaiCountdown(15 * 60);
+            } else if (metodeTerpilih === 'ewallet') {
+                document.getElementById('modalTitle').innerText = "Pembayaran E-Wallet";
+                document.getElementById('ewalletContent').style.display = 'block';
+                mulaiCountdown(60 * 60);
+            }
+
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function cekStatusPembayaran() {
+            clearInterval(intervalTimer);
+            
+            // Mengambil ukuran yang sedang aktif dipilih saat klik bayar selesai dilakukan
+            const ukuranAktif = document.querySelector('input[name="shoe_size"]:checked').value;
+
+            document.getElementById('modalContentBody').innerHTML = `
+                <div style="padding: 10px 0;">
+                    <span style="font-size: 50px;">✅</span>
+                    <h3 style="font-size: 22px; color: #0f172a; margin-top: 10px; font-weight: 800;">Pesanan Selesai</h3>
+                    <p style="font-size: 14px; color: #64748b; margin-top: 8px; line-height: 1.5;">
+                        Terima kasih! Pembayaran sepatu ukuran <strong>EU ${ukuranAktif}</strong> telah kami terima dan pesanan akan segera diproses.
+                    </p>
+                    <button class="btn-close-modal" onclick="tutupModalSempurna()" style="background-color: #0f172a; color: #fff; margin-top: 25px;">
+                        Kembali ke Halaman Utama
+                    </button>
+                </div>
+            `;
+        }
+
+        function tutupModalSempurna() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function mulaiCountdown(durasiDetik) {
+            clearInterval(intervalTimer);
+            let sisaWaktu = durasiDetik;
+
+            function updateTimer() {
+                let jam = Math.floor(sisaWaktu / 3600);
+                let menit = Math.floor((sisaWaktu % 3600) / 60);
+                let detik = sisaWaktu % 60;
+
+                jam = jam < 10 ? "0" + jam : jam;
+                menit = menit < 10 ? "0" + menit : menit;
+                detik = detik < 10 ? "0" + detik : detik;
+
+                const elemenCountdown = document.getElementById('countdown');
+                if(elemenCountdown) {
+                    elemenCountdown.innerText = jam + ":" + menit + ":" + detik;
+                }
+
+                if (sisaWaktu <= 0) {
+                    clearInterval(intervalTimer);
+                    if(elemenCountdown) elemenCountdown.innerText = "WAKTU HABIS";
+                }
+                sisaWaktu--;
+            }
+
+            updateTimer();
+            intervalTimer = setInterval(updateTimer, 1000);
+        }
+    </script>
+</body>
+</html>

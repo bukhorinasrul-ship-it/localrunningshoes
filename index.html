@@ -604,7 +604,118 @@
             .nav-links {
                 display: none;
             }
+            
         }
+        /* Reset & Wrapper dasar */
+.nav-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Jarak antar ikon */
+}
+
+/* Styling Ikon Modern */
+.nav-link, #search-btn {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.nav-link:hover, #search-btn:hover {
+    color: #007bff; /* Warna saat hover */
+}
+
+/* Badge Angka Keranjang */
+.cart-link {
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff3f6c;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 6px;
+    min-width: 14px;
+    text-align: center;
+}
+
+/* --- KOTAK PENCARIAN MENGAMBANG --- */
+.search-wrapper {
+    position: relative; /* Patokan untuk posisi absolute si popover */
+}
+
+.search-popover {
+    display: none; /* Sembunyi secara default */
+    position: absolute;
+    top: 45px; /* Jarak pas di bawah ikon */
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    z-index: 1000;
+    width: 280px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* Class aktif yang akan ditrigger JavaScript */
+.search-popover.active {
+    display: block;
+}
+
+.search-popover form {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.search-popover input {
+    border: none;
+    padding: 8px 12px;
+    width: 100%;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-popover form button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+.search-popover form button:hover {
+    background: #0056b3;
+}
+
+/* Efek Animasi Muncul */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
     </style>
 </head>
 <body>
@@ -649,20 +760,37 @@
                     <a href="#" class="dropdown-trigger">Mills <span class="arrow-down">▾</span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Enercharge</a></li>
-                        <li><a href="#">TREXIMO</a></li>
                         <li><a href="#">ENERPRO</a></li>
-                        <li><a href="#">DYNAPLATE</a></li>
-                        <li><a href="#">ENERSTRIKE</a></li>
-                        <li><a href="#">ENERMAX</a></li>
                     </ul>
                 </li>
             </ul>
 
-            <div class="nav-icons">
-                <button id="search-toggle-btn" title="Cari">&#128269;</button>
-                <button id="profile-toggle-btn" title="Akun">&#128100;</button>
-                <a href="keranjang.html" id="cart-btn" title="Keranjang">&#128092; <span id="cart-count">(0)</span></a>
+           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="nav-container">
+    <div class="nav-icons">
+        <div class="search-wrapper">
+            <button id="search-btn" title="Cari">
+                <i class="fas fa-search"></i>
+            </button>
+            <div id="search-floating-box" class="search-popover">
+                <form action="pencarian.html" method="GET">
+                    <input type="text" name="query" placeholder="Cari produk..." autofocus>
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
             </div>
+        </div>
+
+        <a href="profil.html" class="nav-link" title="Akun">
+            <i class="fas fa-user"></i>
+        </a>
+
+        <a href="keranjang.html" class="nav-link cart-link" title="Keranjang">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="cart-count" class="badge">0</span>
+        </a>
+    </div>
+</div>
         </div>
 
         <div class="profile-dropdown" id="profileMenu">
@@ -675,9 +803,6 @@
             </div>
             <ul class="profile-menu">
                 <li><a href="profil.html">👤 Detail Profil</a></li>
-                <li><a href="keranjang.html">📦 Riwayat Pesanan</a></li>
-                <li><a href="address-list.html">📍 Daftar Alamat</a></li>
-                <li class="logout-item"><a href="#">🚪 Keluar Akun</a></li>
             </ul>
         </div>
     </header>
@@ -723,7 +848,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 2,580,000</div>
-                        <button class="btn-buy">Beli</button>
+                       <a href="ordersolar.html" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -739,7 +878,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 659,000</div>
-                        <button class="btn-buy">Beli</button>
+                        <a href="/orderhtperblast.html" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -754,14 +907,28 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 775,000</div>
-                        <button class="btn-buy">Beli</button>
+                       <a href="/HYPERFUSE 3.1order.html" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
                 <!-- Product 4 -->
                 <div class="product-card" data-search-name="ortuseight hyperglide 4.0" data-search-brand="ortuseight">
                     <div class="product-image">
-                        <img src="https://ortuseightdev.id/image-web-commerce/productimg/11040206_HYPERGLIDE_4_0_-_ELECTRICITY_NAVYArtboard_1.jpg" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Hyperglide+4.0'">
+                        <img src="/HYPERGLIDE GAMBAR.jpg" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Hyperglide+4.0'">
                     </div>
                     <div>
                         <div class="product-brand">Ortuseight</div>
@@ -769,7 +936,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 745,000</div>
-                        <button class="btn-buy">Beli</button>
+                       <a href="/HYPERGLIDEORDER.HTML" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -784,7 +965,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 679,000</div>
-                        <button class="btn-buy">Beli</button>
+                        <a href="HYPERDRIVEORDER.HTML" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -799,7 +994,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 1,449,000</div>
-                        <button class="btn-buy">Beli</button>
+                       <a href="/HYPERSONICORDER.HTML" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -814,14 +1023,28 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 499,000</div>
-                        <button class="btn-buy">Beli</button>
+                        <a href="/HAZEMIRAGEORDER.HTML" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
                 <!-- Product 8 -->
                 <div class="product-card" data-search-name="910 fuuto heritage sail" data-search-brand="910">
                     <div class="product-image">
-                        <img src="/FUUTO HERITAGE SAIL.webp" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Fuuto+Heritage'">
+                        <img src="/FUUTOHARITEAGE.webp" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Fuuto+Heritage'">
                     </div>
                     <div>
                         <div class="product-brand">910</div>
@@ -829,7 +1052,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 599,000</div>
-                        <button class="btn-buy">Beli</button>
+                        <a href="/FUTOHERITAGEOTDER.HTML" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -844,7 +1081,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 799,000</div>
-                        <button class="btn-buy">Beli</button>
+                         <a href="/HIROSHIORDER.HTML" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -859,22 +1110,50 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 749,000</div>
-                        <button class="btn-buy">Beli</button>
+                        <a href="/HAZETEMPOORDER.HTML" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
                 <!-- Product 11 -->
                 <div class="product-card" data-search-name="910 haze strike pro hitam biru" data-search-brand="910">
                     <div class="product-image">
-                        <img src="/910.webp" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Haze+Strike+Pro'">
+                        <img src="/HAZESTRIKEPRO-UNGUTUA-MERAH-JINGGA_1.webp" alt="Sepatu Lari" onerror="this.src='https://placehold.co/300x220?text=Haze+Strike+Pro'">
                     </div>
                     <div>
                         <div class="product-brand">910</div>
-                        <a href="#" class="product-name">HAZE STRIKE PRO HITAM/BIRU</a>
+                        <a href="#" class="product-name">HAZE STRIKE PRO UNGU TUA/MERAH/JINGGA</a>
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 579,000</div>
-                        <button class="btn-buy">Beli</button>
+                        <a href="/hazestrikeorder.html" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -889,7 +1168,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 2,199,000</div>
-                        <button class="btn-buy">Beli</button>
+                        <a href="geisekidenorder.html" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -904,7 +1197,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 1,799,000</div>
-                        <button class="btn-buy">Beli</button>
+                        <a href="enercargeorder.html" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
 
@@ -919,7 +1226,21 @@
                     </div>
                     <div class="product-actions">
                         <div class="product-price">Rp 899,000</div>
-                        <button class="btn-buy">Beli</button>
+                        <a href="enerproorder.html" class="tombol-link">Beli</a>
+
+<style>
+.tombol-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #d90320;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.tombol-link:hover {
+    background-color: #94110d;
+}
+</style>
                     </div>
                 </div>
             </div>
@@ -949,7 +1270,7 @@
                     <li><a href="#">Cara Pembelian</a></li>
                     <li><a href="#">Pengiriman</a></li>
                     <li><a href="#">Pengembalian Barang</a></li>
-                    <li><a href="#">Hubungi Kami</a></li>
+                    <li><a href="/tentangkami.html">Tentang Kami</a></li>
                 </ul>
             </div>
         </div>

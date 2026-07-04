@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami | Local Running Shoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fcfcfc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* === NAVBAR HEADER GLOBAL === */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 20px;
+        }
+
+        .logo {
+            font-size: 19px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #e60000;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 13.5px;
+            font-weight: 600;
+            transition: color 0.15s ease;
+        }
+
+        .nav-links a:hover {
+            color: #0f172a;
+        }
+
+        /* === HERO SECTION === */
+        .about-hero {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-hero h1 {
+            font-size: 32px;
+            font-weight: 850;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .about-hero p {
+            color: #94a3b8;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* === MAIN CONTENT === */
+        .content-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .about-card {
+            background-color: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            border-radius: 20px;
+            padding: 34px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .about-text {
+            font-size: 15px;
+            color: #475569;
+            text-align: justify;
+            margin-bottom: 14px;
+        }
+
+        /* === GRID VISI MISI & KEUNGGULAN === */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        @media (min-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .grid-item {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .grid-item h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .grid-item p {
+            font-size: 13.5px;
+            color: #64748b;
+        }
+
+        /* === HUBUNGI KAMI BUTTON === */
+        .action-box {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .action-list {
+            list-style: none;
+            padding: 0;
+            display: inline-block;
+        }
+
+        .btn-back-home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 46px;
+            font-size: 13.5px;
+            font-weight: 700;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back-home:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+        }
+
+        .btn-back-home:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">Local<span>Running</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="about.html" style="color: #e60000;">Tentang</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="about-hero">
+        <div class="hero-container">
+            <h1>LocalRunningShoes</h1>
+            <p>E-Commerce Sepatu Lari Lokal Terbaik & Terlengkap di Indonesia</p>
+        </div>
+    </section>
+
+    <main class="content-container">
+        
+        <div class="about-card">
+            <h2 class="section-title">🇮🇩 Mengenal LocalRunningShoes</h2>
+            <p class="about-text">
+                <strong>LocalRunningShoes</strong> adalah sebuah platform e-commerce pionir yang didedikasikan khusus untuk mewadahi, mengenalkan, dan memasarkan produk-produk sepatu lari karya anak bangsa. Kami percaya bahwa industri kreatif dan manufaktur olahraga di Indonesia telah berkembang pesat dan mampu bersaing di kancah global.
+            </p>
+            <p class="about-text">
+                Dengan menghadirkan nama-nama besar seperti <em>Ortuseight, 910 (Nineten),</em> hingga <em>Mills</em>, kami mempermudah para pencinta olahraga lari di seluruh Indonesia untuk mendapatkan sepatu lari dengan teknologi mutakhir—seperti piringan karbon (*carbon plate*) dan midsole responsif—tanpa harus merogoh kocek terlalu dalam untuk brand luar negeri.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <h2 class="section-title">🎯 Visi, Misi & Nilai Kami</h2>
+            
+            <div class="info-grid">
+                <div class="grid-item">
+                    <h3>Visi Utama</h3>
+                    <p>Menjadi platform e-commerce rujukan nomor satu di Indonesia yang menggerakkan dan memajukan ekosistem industri brand olahraga lokal.</p>
+                </div>
+                
+                <div class="grid-item">
+                    <h3>Misi Kami</h3>
+                    <p>Menyediakan akses mudah, aman, dan transparan bagi pelari untuk mendapatkan produk lokal original berkualitas tinggi dengan harga yang rasional.</p>
+                </div>
+
+                <div class="grid-item">
+                    <h3>100% Original Lokal</h3>
+                    <p>Semua produk dikirim langsung melalui jalur distribusi resmi brand terkait, menjamin keaslian produk sampai ke tangan konsumen.</p>
+                </div>
+
+                <div class="grid-item">
+                    <h3>Dukungan Spek Teknis</h3>
+                    <p>Katalog kami dilengkapi dengan rincian teknis lengkap, membantu pelari pemula hingga maratonis menemukan sepatu yang sesuai jenis kaki.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-box">
+            <ul class="action-list">
+                <li>
+                    <a href="index.html" class="btn-back-home">
+                        &larr; Kembali Jelajahi Produk
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </main>
+
+</body>
+</html>
